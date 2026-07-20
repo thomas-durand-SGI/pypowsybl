@@ -47,6 +47,7 @@ from pypowsybl.opf.impl.model.opf_model import OpfModel
 from pypowsybl.opf.impl.network_statistics import NetworkStatistics
 from pypowsybl.opf.impl.parameters import OptimalPowerFlowParameters, OptimalPowerFlowMode
 from pypowsybl.opf.impl.acdc_network_validator import validate_acdc_network
+from pypowsybl.opf.impl.constraints.dc_voltage_reference_constraints import DcVoltageReferenceConstraints
 logger = logging.getLogger(__name__)
 
 
@@ -99,7 +100,8 @@ class OptimalPowerFlow:
                                           DcLineConstraints(),
                                           VoltageSourceConverterConstraints(),
                                           DcCurrentBalanceConstraints(),
-                                          DcGroundConstraints()]
+                                          DcGroundConstraints(),
+                                          DcVoltageReferenceConstraints()]
         if parameters.mode == OptimalPowerFlowMode.REDISPATCHING:
             constraints.append(CurrentLimitConstraints())
             cost_function: CostFunction = RedispatchingCostFunction(1.0, 1.0, 1.0)
